@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>cachewhy social card</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; width: 1200px; height: 675px; }
+  body { background: #25221f; color: #f7f5f0; font-family: Inter, Arial, sans-serif; }
+  .frame { width: 1200px; height: 675px; padding: 54px 64px; position: relative; overflow: hidden; }
+  .eyebrow { color: #c9c0ad; font-size: 21px; letter-spacing: 1.5px; }
+  h1 { margin: 22px 0 13px; font-size: 72px; font-weight: 500; letter-spacing: -3px; line-height: 1; }
+  .lede { font-size: 27px; color: #d8d0c2; max-width: 940px; line-height: 1.25; }
+  .terminal { margin-top: 42px; border: 1px solid #57504a; background: #302c29; border-radius: 12px; padding: 24px 30px; font: 23px/1.48 'DejaVu Sans Mono', monospace; box-shadow: 0 25px 50px #0005; }
+  .prompt { color: #b7e3c4; } .bad { color: #ff9b8d; } .good { color: #a8dfb5; } .muted { color: #b9b1a4; }
+  .rule { position: absolute; left: 64px; right: 64px; bottom: 48px; border-top: 1px solid #57504a; }
+  .footer { position: absolute; left: 64px; bottom: 20px; font-size: 17px; color: #b9b1a4; }
+</style>
+<div class="frame">
+  <div class="eyebrow">HTTP CACHE DIAGNOSIS FROM ONE URL</div>
+  <h1>cachewhy</h1>
+  <div class="lede">A 404 can remain fresh for 31 days. See the header that makes it happen.</div>
+  <div class="terminal"><span class="prompt">$</span> cachewhy /missing.js<br><span class="bad">404 warning: browser may reuse this response for 31 days</span><br><span class="muted">Cache-Control: public, max-age=2678400</span><br><span class="prompt">$</span> cachewhy '/missing.js?fixed=1'<br><span class="good">Browser: DO NOT STORE</span> <span class="muted">no-store forbids storage</span></div>
+  <div class="rule"></div><div class="footer">github.com/Arthur031221/cachewhy</div>
+</div>
+</html>

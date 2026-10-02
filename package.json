@@ -1,0 +1,16 @@
+{
+  "name": "cachewhy",
+  "version": "0.1.0",
+  "description": "Explain what a browser and shared HTTP cache can reuse from a URL",
+  "type": "module",
+  "bin": { "cachewhy": "bin/cachewhy.js" },
+  "exports": { ".": "./src/index.js" },
+  "files": ["bin", "src", "README.md", "LICENSE"],
+  "scripts": { "test": "node --test test/*.test.js" },
+  "engines": { "node": ">=20" },
+  "dependencies": { "http-cache-semantics": "4.2.0" },
+  "keywords": ["http", "cache", "cache-control", "cdn", "debugging", "cli"],
+  "author": "Arthur031221",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/Arthur031221/cachewhy.git" }
+}
