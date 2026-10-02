@@ -109,6 +109,7 @@ test('rejects redirect loops and invalid schemes', async () => {
     await assert.rejects(probe(`${url}/loop`), /redirect loop/);
   });
   await assert.rejects(probe('file:///etc/passwd'), /http or https/);
+  await assert.rejects(probe('example.com'), /absolute http or https URL/);
 });
 
 test('CLI arguments and plain output', () => {

@@ -4,8 +4,13 @@ const REDIRECTS = new Set([301, 302, 303, 307, 308]);
 const USEFUL_HEADERS = ['cache-control', 'age', 'date', 'expires', 'etag', 'last-modified', 'vary', 'cdn-cache-control', 'cache-status', 'cf-cache-status', 'x-cache'];
 
 function validUrl(value) {
-  const url = new URL(value);
-  if (!['http:', 'https:'].includes(url.protocol)) throw new Error('URL must use http or https');
+  let url;
+  try {
+    url = new URL(value);
+  } catch {
+    throw new Error('URL must be an absolute http or https URL');
+  }
+  if (!['http:', 'https:'].includes(url.protocol)) throw new Error('URL must be an absolute http or https URL');
   return url;
 }
 
