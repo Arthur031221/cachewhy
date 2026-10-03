@@ -81,6 +81,16 @@ function policyFor(response, shared) {
   };
 }
 
+function invalidFreshnessDirective(cacheControl, shared) {
+  const directives = cacheControl.split(',');
+  const hasSharedMaxAge = shared && directives.some(directive => directive.trim().split('=', 1)[0].toLowerCase() === 's-maxage');
+  const name = hasSharedMaxAge ? 's-maxage' : 'max-age';
+  const directive = directives.findLast(value => value.trim().split('=', 1)[0].toLowerCase() === name);
+  if (directive === undefined) return null;
+  const value = directive.trim().split('=').slice(1).join('=').trim();
+  return /^"?\d+"?$/.test(value) ? null : name;
+}
+
 function reason(headers, result, shared) {
   const cc = headers['cache-control'] || '';
   if (result.uncertain && /\b(?:private|no-cache)\s*=\s*"/i.test(cc)) return 'field-scoped directive; cache support varies';
@@ -89,6 +99,8 @@ function reason(headers, result, shared) {
   if (/\bno-cache\b/i.test(cc)) return 'no-cache requires revalidation';
   if (result.mayServeStale) return 'stale-while-revalidate may serve stale while refreshing';
   if (headers.vary === '*') return 'Vary: * prevents reuse';
+  const invalidDirective = invalidFreshnessDirective(cc, shared);
+  if (invalidDirective && !result.fresh) return `invalid ${invalidDirective}; response requires revalidation`;
   if (shared && /\bs-maxage\s*=/i.test(cc)) return 's-maxage sets shared freshness';
   if (/\bmax-age\s*=/i.test(cc)) return 'max-age sets freshness';
   if (headers.expires) return 'Expires sets freshness';

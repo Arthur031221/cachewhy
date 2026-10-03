@@ -46,6 +46,14 @@ test('s-maxage applies only to shared caches', () => {
   assert.match(result.shared.reason, /s-maxage/);
 });
 
+test('invalid freshness values explain why a response must be revalidated', () => {
+  const result = analyze({ url: 'https://example.test/misconfigured', status: 200, headers: { 'cache-control': 'max-age=600, s-maxage=tomorrow' }, redirects: [] });
+  assert.equal(result.browser.fresh, true);
+  assert.equal(result.shared.fresh, false);
+  assert.match(result.browser.reason, /max-age sets freshness/);
+  assert.match(result.shared.reason, /invalid s-maxage.*revalidation/);
+});
+
 test('private allows browser reuse but excludes shared caches', () => {
   const result = analyze({ url: 'https://example.test/private', status: 200, headers: { 'cache-control': 'private, max-age=3600' }, redirects: [] });
   assert.equal(result.browser.fresh, true);
